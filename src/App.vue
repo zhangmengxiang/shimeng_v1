@@ -8,7 +8,7 @@
         <router-view :key="this.$route.fullPath"></router-view>
     </div>
 
-    <div>
+    <div >
       <Footer></Footer>
     </div>
   </div>
@@ -21,6 +21,13 @@ import Footer from "@/components/Layout/Footer";
 export default {
   name: "App",
   components: { Header, Footer },
+  data() {
+    return {
+    }
+  },
+  created() {
+    console.info('tag', '')
+  },
 };
 </script>
 

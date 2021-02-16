@@ -8,6 +8,8 @@ import 'buefy/dist/buefy.css'
 // ElementUI
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import VideoPlayer from 'vue-video-player'
+import 'video.js/dist/video-js.css'
 import '@/assets/app.css'
 import './assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css'
 import format from 'date-fns/format'
@@ -17,7 +19,8 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 // 国际化
 import 'dayjs/locale/zh-cn'
 const dayjs = require('dayjs');
-
+const hls = require('videojs-contrib-hls')
+Vue.use(hls)
 // 相对时间插件
 dayjs.extend(relativeTime)
 
@@ -32,6 +35,7 @@ Vue.filter('date', (date) => {
 
 Vue.use(Buefy)
 Vue.use(ElementUI);
+Vue.use(VideoPlayer);
 
 Vue.config.productionTip = false
 

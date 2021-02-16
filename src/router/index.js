@@ -15,6 +15,13 @@ const routes = [
     component: () => import("@/views/auth/Register"),
     meta: { title: "注册" },
   },
+  //电影详细播放页
+  {
+    path: "/vod/:fid",
+    name: "vod",
+    component: () => import("@/views/post/Vod"),
+    meta: { title: "电影详细" },
+  },
   // 登录
   {
     name: "login",
@@ -84,6 +91,18 @@ const routes = [
     redirect: "/404",
     hidden: true,
   },
+  {
+    path: "/site",
+    name: "site",
+    component: () => import("@/views/site/Site"),
+    meta: { title: "后台管理页面" },
+  },
+  {
+    path: "/urlAdministration",
+    name: "urlAdministration",
+    component: () => import("@/views/site/UrlAdministration"),
+    meta: { title: "解析渠道" },
+  }
 ];
 
 const originalPush = VueRouter.prototype.push;

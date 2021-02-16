@@ -2,54 +2,29 @@
   <div>
     <el-card shadow="never">
       <div slot="header" class="clearfix">
-        检索到 <code>{{ list.length }}</code>
-        条关于 <code class="has-text-info">{{ query.keyword }}</code> 的记录
+        检索到 <code>{{ totalCount }}</code>
+        条关于 <code class="has-text-info">{{ query.filmName }}</code> 的记录
       </div>
       <div>
-        <article v-for="(item, index) in list" :key="index" class="media">
-          <div class="media-left">
-            <figure class="image is-48x48">
-              <img :src="`https://cn.gravatar.com/avatar/${item.userId}?s=164&d=monsterid`"> 
-            </figure>
-          </div>
-          <div class="media-content">
-            <div class="">
-              <p class="ellipsis is-ellipsis-1">
-                <el-tooltip class="item" effect="dark" :content="item.title" placement="top">
-                  <router-link :to="{name:'post-detail',params:{id:item.id}}">
-                    <span class="is-size-6">{{ item.title }}</span>
+        <el-row :gutter="20">
+
+              <el-col :span="4" v-for="(item, index) in tableData" :key="index" style="padding-top:10px;">
+                <router-link :to="{path:'/vod/'+item.fid}">
+                  <div class="father">
+                    
+                    <span class="score">豆瓣{{item.filmRatings}}分</span>
+                    <img :src="item.filmCover" style="width:300px; height:200px;">
+                  </div>
+                  <div>
+                    <span class="cl1"><h5>{{item.filmName}}</h5></span>
+                    <div class="text-muted">
+                      主演：{{item.filmPerformer | ellipsis}}
+                    </div>
+                  </div>
                   </router-link>
-                </el-tooltip>
-              </p>
-            </div>
-            <nav class="level has-text-grey is-mobile  is-size-7 mt-2">
-              <div class="level-left">
-                <div class="level-left">
-                  <router-link class="level-item" :to="{ path: `/member/${item.username}/home` }">
-                    {{ item.alias }}
-                  </router-link>
+              </el-col>
 
-                  <span class="mr-1">
-                    发布于:{{ dayjs(item.createTime).format("YYYY/MM/DD") }}
-                  </span>
-
-                  <span
-                    v-for="(tag, index) in item.tags"
-                    :key="index"
-                    class="tag is-hidden-mobile is-success is-light mr-1"
-                  >
-                    <router-link :to="{ name: 'tag', params: { name: tag.name } }">
-                      {{ "#" + tag.name }}
-                    </router-link>
-                  </span>
-
-                  <span class="is-hidden-mobile">浏览:{{ item.view }}</span>
-                </div>
-              </div>
-            </nav>
-          </div>
-          <div class="media-right" />
-        </article>
+          </el-row>
       </div>
 
       <!--分页-->
@@ -66,6 +41,7 @@
 
 <script>
 import { searchByKeyword } from '@/api/search'
+import {  queryfilmPage  } from '@/api/site'
 import Pagination from '@/components/Pagination'
 
 export default {
@@ -75,30 +51,60 @@ export default {
     return {
       list: [],
       query: {
-        keyword: this.$route.query.key,
+        filmName: this.$route.query.key,
         pageNum: 1,
-        pageSize: 10,
-        total: 0
-      }
+        pageSize: 24
+      },
+      tableData : [],
+      totalCount : 0
     }
   },
   created() {
-    this.fetchList()
+    this.queryfilmPage()
+  },
+  filters: {
+    // 当标题字数超出时，超出部分显示’...‘。此处限制超出8位即触发隐藏效果
+      ellipsis (value) {
+          if (!value) return ''
+          if (value.length > 8) {
+              return value.slice(0, 8) + '...'
+          }
+          return value
+      }
   },
   methods: {
-    fetchList() {
-      searchByKeyword(this.query).then(value => {
-        const { data } = value
-        this.list = data.records
-        this.query.total = data.total
-        this.query.pageSize = data.size
-        this.query.pageNum = data.current
-      })
+    async queryfilmPage(){
+      let { data:baseRefault} = await queryfilmPage(this.query)
+      this.tableData = baseRefault.dataList;
+      this.totalCount = baseRefault.totalCount
     }
+    // fetchList() {
+    //   searchByKeyword(this.query).then(value => {
+    //     const { data } = value
+    //     this.list = data.records
+    //     this.query.total = data.total
+    //     this.query.pageSize = 24
+    //     this.query.pageNum = 1
+    //   })
+    // }
   }
 }
 </script>
 
 <style scoped>
-
+.father {
+        width: 100%;
+        height: 100%;
+        background-color: #eee;
+        margin: 0px auto;
+        position: relative;
+        overflow: hidden;
+    }
+    .score {
+    position: absolute;
+    padding: 0 5px;
+    text-align: right;
+    font-size: 12px;
+    background-color: #d9cbcb;
+  }
 </style>

@@ -1,24 +1,23 @@
 <template>
   <div>
-    <!-- <div class="box">🔔 {{ billboard.content }}</div> -->
     <div class="columns">
       <div class="column is-three-quarters">
         <TopicList></TopicList>
       </div>
-      <div class="column">
+      <!-- <div class="column">
         <CardBar></CardBar>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
-import CardBar from "@/views/card/CardBar"
+//import CardBar from "@/views/card/CardBar"
 import PostList from '@/views/post/Index'
 
 export default {
   name: "Home",
-  components: {CardBar, TopicList: PostList},
+  components: {TopicList: PostList},
   data() {
     return {
       
@@ -31,3 +30,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+  .column.is-three-quarters {
+    width: 100%;
+  }
+
+</style>
