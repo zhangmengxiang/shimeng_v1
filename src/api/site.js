@@ -1,7 +1,7 @@
 // 1 导入axios
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://192.168.1.104:8000'
+axios.defaults.baseURL = 'http://132.232.48.123:8000'
 axios.defaults.timeout = 3000
 
 //保存渠道
