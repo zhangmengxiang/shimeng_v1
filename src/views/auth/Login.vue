@@ -91,21 +91,12 @@ export default {
                 type: "success",
                 duration: 2000,
               });
-              console.info('name', this.ruleForm.name)
-              console.info('pass', this.ruleForm.pass)
-              if ('admin' == this.ruleForm.name) {
-                sessionStorage.setItem('site',this.ruleForm.name + this.ruleForm.pass + "dhduaih871heu81h8h27ey7182eu1he8271h8e7h2")
-                setTimeout(() => {
-                  this.loading = false;
-                  this.$router.push({ path: this.redirect || "/site" });
-                }, 0.1 * 1000);
-              } else {
-                setTimeout(() => {
+              sessionStorage.setItem('loginname',this.ruleForm.name)
+              sessionStorage.setItem('site',this.ruleForm.name + "h871heu81h8" +  this.ruleForm.pass + "dhduaih871heu81h8h27ey7182eu1he8271h8e7h2")
+              setTimeout(() => {
                   this.loading = false;
                   this.$router.push({ path: this.redirect || "/" });
                 }, 0.1 * 1000);
-              }
-              
             })
             .catch(() => {
               this.loading = false;

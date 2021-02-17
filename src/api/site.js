@@ -1,7 +1,7 @@
 // 1 导入axios
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://132.232.48.123:8000'
+axios.defaults.baseURL = 'http://192.168.1.104:8000'
 axios.defaults.timeout = 3000
 
 //保存渠道
@@ -52,4 +52,19 @@ export function queryFilmType(page){
 //解析渠道
 export function queryVideoUrl(source){
     return axios.post('/filmSource/queryVideoUrl',source)
+}
+
+//电影申请
+export function applyfilm(film){
+    return axios.post('applyFilm/saveApplyFilm',film)
+}
+
+//电影查询
+export function queryApplyFilm(){
+    return axios.get('applyFilm/queryApplyFilm')
+}
+
+//审核通过
+export function updateStatus(aid){
+    return axios.get('/applyFilm/updateStatus?aid='+aid)
 }

@@ -73,7 +73,7 @@
       <div slot="header" class="clearfix">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           
-          <el-tab-pane label="电影专区" name="">
+          <el-tab-pane label="电影专区" name="latest">
             <el-row :gutter="20">
 
               <el-col :span="4" v-for="(item, index) in tableData" :key="index" style="padding-top:10px;">
@@ -110,51 +110,62 @@
           <!-- {{tableData}} -->
           </el-tab-pane>
 
-          <el-tab-pane label="系统论坛" name="latest">
-            <article v-for="(item, index) in articleList" :key="index" class="media">
-              <div class="media-left">
-                <figure class="image is-48x48">
-                  <img :src="`https://cn.gravatar.com/avatar/${item.userId}?s=164&d=monsterid`" style="border-radius: 5px;">
-                </figure>
-              </div>
-              <div class="media-content">
-                <div class="">
-                  <p class="ellipsis is-ellipsis-1">
-                    <el-tooltip class="item" effect="dark" :content="item.title" placement="top">
-                      <router-link :to="{name:'post-detail',params:{id:item.id}}">
-                        <span class="is-size-6">{{ item.title }}</span>
-                      </router-link>
-                    </el-tooltip>
-                  </p>
-                </div>
-                <nav class="level has-text-grey is-mobile  is-size-7 mt-2">
-                  <div class="level-left">
-                    <div class="level-left">
-                      <router-link class="level-item" :to="{ path: `/member/${item.username}/home` }">
-                        {{ item.alias }}
-                      </router-link>
-
-                      <span class="mr-1">
-                        发布于:{{ dayjs(item.createTime).format("YYYY/MM/DD") }}
-                      </span>
-
-                      <span
-                        v-for="(tag, index) in item.tags"
-                        :key="index"
-                        class="tag is-hidden-mobile is-success is-light mr-1"
-                      >
-                        <router-link :to="{ name: 'tag', params: { name: tag.name } }">
-                          {{ "#" + tag.name }}
-                        </router-link>
-                      </span>
-
-                      <span class="is-hidden-mobile">浏览:{{ item.view }}</span>
-                    </div>
+          <el-tab-pane label="系统论坛" name="">
+            <el-row :gutter="20">
+              <el-col :span="16">
+                <article v-for="(item, index) in articleList" :key="index" class="media">
+                  <div class="media-left">
+                    <figure class="image is-48x48">
+                      <img :src="`https://cn.gravatar.com/avatar/${item.userId}?s=164&d=monsterid`" style="border-radius: 5px;">
+                    </figure>
                   </div>
-                </nav>
-              </div>
-              <div class="media-right" />
-            </article>
+                  <div class="media-content">
+                    <div class="">
+                      <p class="ellipsis is-ellipsis-1">
+                        <el-tooltip class="item" effect="dark" :content="item.title" placement="top">
+                          <router-link :to="{name:'post-detail',params:{id:item.id}}">
+                            <span class="is-size-6">{{ item.title }}</span>
+                          </router-link>
+                        </el-tooltip>
+                      </p>
+                    </div>
+                    <nav class="level has-text-grey is-mobile  is-size-7 mt-2">
+                      <div class="level-left">
+                        <div class="level-left">
+                          <router-link class="level-item" :to="{ path: `/member/${item.username}/home` }">
+                            {{ item.alias }}
+                          </router-link>
+
+                          <span class="mr-1">
+                            发布于:{{ dayjs(item.createTime).format("YYYY/MM/DD") }}
+                          </span>
+
+                          <span
+                            v-for="(tag, index) in item.tags"
+                            :key="index"
+                            class="tag is-hidden-mobile is-success is-light mr-1"
+                          >
+                            <router-link :to="{ name: 'tag', params: { name: tag.name } }">
+                              {{ "#" + tag.name }}
+                            </router-link>
+                          </span>
+
+                          <span class="is-hidden-mobile">浏览:{{ item.view }}</span>
+                        </div>
+                      </div>
+                    </nav>
+                  </div>
+                  <div class="media-right" />
+                </article>
+              </el-col>
+              <el-col :span="8">
+                <div class="column">
+                  <CardBar></CardBar>
+                </div>
+              </el-col>
+            </el-row>
+
+            
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -177,10 +188,11 @@
 import { getList } from '@/api/post'
 import Pagination from '@/components/Pagination'
 import {  queryfilmPage  } from '@/api/site'
+import CardBar from "@/views/card/CardBar"
 
 export default {
   name: 'TopicList',
-  components: { Pagination },
+  components: { Pagination , CardBar },
   data() {
     return {
       activeName: 'latest',

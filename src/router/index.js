@@ -29,6 +29,12 @@ const routes = [
     component: () => import("@/views/auth/Login"),
     meta: { title: "登录" },
   },
+  {
+    name: "apply",
+    path: "/apply",
+    component: () => import("@/views/apply/FilmApply"),
+    meta: { title: "电影申请" },
+  },
   // 发布
   {
     name: "post-create",

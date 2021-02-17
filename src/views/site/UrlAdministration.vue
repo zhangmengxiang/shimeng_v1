@@ -75,6 +75,15 @@ export default {
         }
       },
       created() {
+        let asc = sessionStorage.getItem('site')
+        if (asc != 'adminh871heu81h8d5fhsuniczb8da5feadhduaih871heu81h8h27ey7182eu1he8271h8e7h2') {
+          this.$router.push({ path: "/error" });
+        } else {
+          this.$message({
+              message: '欢迎管理员大大！',
+              type: 'success'
+            });
+        }
         this.queryChannel()
       },
       methods: {
