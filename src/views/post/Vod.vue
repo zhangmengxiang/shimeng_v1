@@ -11,8 +11,12 @@
         <p style="padding-top:5px;">
           正在为您播放-{{filmFrom.filmName}}，如果无法播放，请更换视频解析线路
         </p>
-        <div style="padding-top:5px;" v-for="(item, index) in tableData" :key="index">
-          <a class="ab" @click="qudao(item.channelUrl)" title='渠道一'  :v-model="curl = tableData[0].channelUrl">渠道{{index+1}}</a>
+        <div style="padding-top:5px;" >
+          <el-row>
+              <el-col :span="3" v-for="(item, index) in tableData" :key="index">
+                <a class="ab" @click="qudao(item.channelUrl)" :v-model="curl = tableData[index].channelUrl">渠道{{index+1}}</a>
+              </el-col>
+            </el-row>
         </div>
       </el-col>
       <el-col :span="6">
@@ -177,13 +181,13 @@ export default {
       this.sourceJIeXi.sid = this.csid
       this.sourceJIeXi.channelUrl = channurl
       let { data:baseRefault} = await queryVideoUrl(this.sourceJIeXi)
-      this.playerOptions.sources[0].src = baseRefault.data
+      this.filmType(baseRefault);
     },
     async laiyuan(csid){
       this.sourceJIeXi.sid = csid
       this.sourceJIeXi.channelUrl = this.curl
       let { data:baseRefault} = await queryVideoUrl(this.sourceJIeXi)
-      this.playerOptions.sources[0].src = baseRefault.data
+      this.filmType(baseRefault);
     },
     async FilmFromSearch(ftype,performer){
         this.formInline.filmType = ftype
@@ -208,12 +212,16 @@ export default {
       this.sourceJIeXi.sid = this.sourceArr[0].sid
       this.sourceJIeXi.channelUrl = this.tableData[0].channelUrl
       let { data:baseRefaultc} = await queryVideoUrl(this.sourceJIeXi)
-      this.playerOptions.sources[0].src = baseRefaultc.data
+      this.filmType(baseRefaultc);
     },
-    async queryChannel(){
-        
-
-        
+    async filmType(baseRefaultc){
+      console.info('baseRefaultcccccccccc', baseRefaultc)
+        this.playerOptions.sources[0].src = baseRefaultc.data.url
+        if (baseRefaultc.data.type == 'mp4'){
+          this.playerOptions.sources[0].type = 'video/mp4'
+        } else {
+          this.playerOptions.sources[0].type = 'application/x-mpegURL'
+        }
     }
     
   },
