@@ -9,14 +9,14 @@
             :options="playerOptions"
         ></video-player>
         <p style="padding-top:5px;">
-          正在为您播放-{{filmFrom.filmName}}，如果无法播放，请更换视频解析线路
+          正在为您播放-{{filmFrom.filmName}}，如果无法播放，请更换视频解析线路 
         </p>
         <div style="padding-top:5px;" >
           <el-row>
-              <el-col :span="3" v-for="(item, index) in tableData" :key="index">
+              <el-col :span="equipment == true ? 8 : 3" v-for="(item, index) in tableData" :key="index">
                 <a class="ab" @click="qudao(item.channelUrl)" :v-model="curl = tableData[index].channelUrl">渠道{{index+1}}</a>
               </el-col>
-            </el-row>
+          </el-row>
         </div>
       </el-col>
       <el-col :span="6">
@@ -24,12 +24,19 @@
             <h3>来源渠道</h3>
           </div>
         <div>
-          <div  >
-            <el-row>
+          <div  v-if="!equipment">
+            <el-row >
               <el-col :span="8" v-for="(item, index) in sourceArr" :key="index">
                 <a class="ab" @click="laiyuan(item.sid)" :title='item.sid' :v-model="csid = sourceArr[0].sid" >{{item.sid}}</a>
               </el-col>
             </el-row>
+            
+          </div>
+
+          <div v-else>
+            <div v-for="(item, index) in sourceArr" :key="index" style="padding-top:3px;">
+              <a class="ab" @click="laiyuan(item.sid)" :title='item.sid' :v-model="csid = sourceArr[0].sid" >{{item.sid}}</a>
+            </div>
           </div>
           
           <!-- <div style="padding-top:5px;">
@@ -38,7 +45,7 @@
             <el-button type="info" size="mini">腾讯</el-button>
           </div> -->
         </div>
-        <div style="padding-top:5px;">
+        <div style="padding-top:5px;" v-if="!equipment">
           <div class="qy-play-list-title">
             <h3>有关热门论坛</h3>
           </div>
@@ -95,7 +102,7 @@
     </div>
     
     <el-row :gutter="20">
-        <el-col :span="4" v-for="(item, index) in filmTable" :key="index" style="padding-top:10px;">
+        <el-col :span="equipment == true ? 8 : 4" v-for="(item, index) in filmTable" :key="index" style="padding-top:10px;">
           <router-link :to="{path:'/vod/'+item.fid}">
             <div class="father">
               <span class="score">豆瓣{{item.filmRatings}}分</span>
@@ -157,21 +164,28 @@ export default {
      sourceJIeXi : {},
      csid : '',
      curl : '',
-     sourceUrl : ''
+     sourceUrl : '',
+     equipment : false
     }
   },
   created() {
     this.aa(this.$route.params.fid)
     this.panduan()
     this.queryChannel()
-    
   },
   filters: {
     // 当标题字数超出时，超出部分显示’...‘。此处限制超出8位即触发隐藏效果
       ellipsis (value) {
           if (!value) return ''
-          if (value.length > 8) {
-              return value.slice(0, 8) + '...'
+          if (value.length > 7) {
+              return value.slice(0, 7) + '...'
+          }
+          return value
+      },
+      ellipsisb (value) {
+          if (!value) return ''
+          if (value.length > 5) {
+              return value.slice(0, 4) + '...'
           }
           return value
       }
@@ -215,7 +229,7 @@ export default {
       this.filmType(baseRefaultc);
     },
     async filmType(baseRefaultc){
-      console.info('baseRefaultcccccccccc', baseRefaultc)
+      this.equipment = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) ? true :  flase;
         this.playerOptions.sources[0].src = baseRefaultc.data.url
         if (baseRefaultc.data.type == 'mp4'){
           this.playerOptions.sources[0].type = 'video/mp4'

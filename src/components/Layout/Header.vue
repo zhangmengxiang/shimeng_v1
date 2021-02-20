@@ -78,6 +78,12 @@
             >
               登录
             </b-button>
+            <b-button
+              class="is-light"
+                @click="tishi"
+            >
+              写文章
+            </b-button>
           </div>
         </b-navbar-item>
 
@@ -85,6 +91,13 @@
           v-else
           :label="user.alias"
         >
+        <b-navbar-item
+            tag="router-link"
+            :to="{path:'/post/create'}"
+          >
+            ⌨️ 文章编写
+          </b-navbar-item>
+          <hr class="dropdown-divider">
           <b-navbar-item
             tag="router-link"
             :to="{ path: `/member/${user.username}/home` }"
@@ -156,6 +169,12 @@ export default {
           this.$router.push({ path: this.redirect || '/' })
         }, 500)
       })
+    },
+    tishi(){
+       this.$message({
+          message: '请先登录哦！亲！',
+          type: 'warning'
+        });
     },
     search() {
       console.log(this.token)

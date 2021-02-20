@@ -2,7 +2,7 @@
   <div>
     
     <div class="box">
-      
+       {{equipment}}
       <el-row>
         <el-col :span="8">
           <div style="padding-left: 5px;">
@@ -33,17 +33,18 @@
           </div>
           <div class="kongzhia">
             <a @click="dd('')" title="电影天堂">全部</a>
-            <a @click="dd('2021')" title='2021电影' >2021</a>
-            <a @click="dd('2020')" title='2020电影' >2020</a>
-            <a @click="dd('2019')" title='2019电影' >2019</a>
-            <a @click="dd('2018')" title='2018电影' >2018</a>
-            <a @click="dd('2017')" title='2017电影' >2017</a>
-            <a @click="dd('2016')" title='2016电影' >2016</a>
-            <a @click="dd('2015')" title='2015电影' >2015</a><br>
-            <a @click="dd('2014')" title='2014电影' >2014</a>
-            <a @click="dd('2013')" title='2013电影' >2013</a>
-            <a @click="dd('2012')" title='2012电影' >2012</a>
-            <a @click="dd('2011')" title='2011电影' >2011</a>
+            <a @click="dd('2021')" title='2021电影' v-text="21 + '年'"></a>
+            <a @click="dd('2020')" title='2020电影' v-text="20 + '年'"></a>
+            <a @click="dd('2019')" title='2019电影' v-text="19 + '年'"></a>
+            <a @click="dd('2018')" title='2018电影' v-text="18 + '年'"></a>
+            <a @click="dd('2017')" title='2017电影' v-text="17 + '年'"></a>
+            <a @click="dd('2016')" title='2016电影' v-text="16 + '年'"></a>
+            <a @click="dd('2015')" title='2015电影' v-text="15 + '年'"></a>
+            <a @click="dd('2014')" title='2014电影' v-text="14 + '年'"></a>
+            <a @click="dd('2013')" title='2013电影' v-text="13 + '年'"></a>
+            <a @click="dd('2012')" title='2012电影' v-text="12 + '年'"></a>
+            <a @click="dd('2011')" title='2011电影' v-text="11 + '年'"></a>
+            <a @click="dd('2011')" title='2011电影' v-text="10 + '年'"></a>
           </div>
         </el-col>
         <el-col :span="8" style="border-left: 1px solid #e2e2e2;">
@@ -74,9 +75,9 @@
         <el-tabs v-model="activeName" @tab-click="handleClick">
           
           <el-tab-pane label="电影专区" name="latest">
-            <el-row :gutter="20">
+            <el-row :gutter="20" >
 
-              <el-col :span="4" v-for="(item, index) in tableData" :key="index" style="padding-top:10px;">
+              <el-col :span="equipment == true ? 8 : 4" v-for="(item, index) in tableData" :key="index" style="padding-top:10px;">
                 <router-link :to="{path:'/vod/'+item.fid}">
                   <div class="father">
                     
@@ -85,13 +86,15 @@
                   </div>
                   <div>
                     <span class="cl1"><h5>{{item.filmName}}</h5></span>
-                    <div class="text-muted">
+                    <div class="text-muted" v-if="!equipment">
                       主演：{{item.filmPerformer | ellipsis}}
+                    </div>
+                    <div class="text-muted" v-else>
+                      主演：{{item.filmPerformer | ellipsisb}}
                     </div>
                   </div>
                   </router-link>
               </el-col>
-
           </el-row>
 
            <div style="padding-left: 30%;padding-top: 10px;">
@@ -108,11 +111,12 @@
 
 
           <!-- {{tableData}} -->
+         
           </el-tab-pane>
 
           <el-tab-pane label="系统论坛" name="">
             <el-row :gutter="20">
-              <el-col :span="16">
+              <el-col :span="equipment == false ? 16 : 20">
                 <article v-for="(item, index) in articleList" :key="index" class="media">
                   <div class="media-left">
                     <figure class="image is-48x48">
@@ -158,27 +162,42 @@
                   <div class="media-right" />
                 </article>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="8" v-if="!equipment">
                 <div class="column">
                   <CardBar></CardBar>
                 </div>
               </el-col>
             </el-row>
-
-            
           </el-tab-pane>
         </el-tabs>
       </div>
-      <div style="padding-left: 25%;padding-top: 10px;">
-        <pagination
-          v-show="page.total > 0"
-          :total="page.total"
-          :page.sync="page.current"
-          :limit.sync="page.size"
-          @pagination="init"
-        />
-      </div>
+      
+      
       <!--分页-->
+      <div class="box">
+
+        <div style="padding-left: 25%;padding-top: 10px;" v-if="!equipment">
+          <pagination
+            v-show="page.total > 0"
+            :total="page.total"
+            :page.sync="page.current"
+            :limit.sync="page.size"
+            @pagination="init"
+          />
+        </div>
+
+        <div v-else>
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage1"
+            :page-size="24"
+            layout="total, prev, pager, next"
+            :total="totalCount">
+          </el-pagination>
+        </div>
+
+      </div>
       
     </el-card>
   </div>
@@ -208,15 +227,23 @@ export default {
         tab: 'latest'
       },
       tableData : [],
-      totalCount : 0
+      totalCount : 0,
+      equipment : false //false 为电脑 
     }
   },
   filters: {
     // 当标题字数超出时，超出部分显示’...‘。此处限制超出8位即触发隐藏效果
       ellipsis (value) {
           if (!value) return ''
-          if (value.length > 10) {
-              return value.slice(0, 10) + '...'
+          if (value.length > 7) {
+              return value.slice(0, 7) + '...'
+          }
+          return value
+      },
+      ellipsisb (value) {
+          if (!value) return ''
+          if (value.length > 5) {
+              return value.slice(0, 4) + '...'
           }
           return value
       }
@@ -224,6 +251,7 @@ export default {
   created() {
     this.FilmFromSearch()
     this.panduan()
+    this.equipment = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) ? true :  flase;
   },
   methods: {
     async panduan() {
@@ -239,28 +267,23 @@ export default {
       this.init(tab.name)
     },
      handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
       this.formInline.pageNum = 1
       this.formInline.pageSize = val
       this.FilmFromSearch()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
       this.formInline.pageNum = val
       this.FilmFromSearch()
     },
     cc(type){
-      console.info('type', type)
       this.formInline.filmType = type
       this.FilmFromSearch()
     },
     dd(time){
-      console.info('time', time)
       this.formInline.filmShowTime = time
       this.FilmFromSearch()
     },
     ee(addr) {
-      console.info('addr', addr)
       this.formInline.filmCountry = addr
       this.FilmFromSearch()
     }
