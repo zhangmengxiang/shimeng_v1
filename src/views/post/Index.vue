@@ -250,7 +250,7 @@ export default {
   created() {
     this.FilmFromSearch()
     this.panduan()
-    this.equipment = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) ? true :  flase;
+    this.equipment = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) ? true :  false;
   },
   methods: {
     async panduan() {
