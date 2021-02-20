@@ -2,7 +2,6 @@
   <div>
     
     <div class="box">
-       {{equipment}}
       <el-row>
         <el-col :span="8">
           <div style="padding-left: 5px;">
