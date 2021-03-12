@@ -1,0 +1,109 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>网络VIP视频在线解析-免费看各大影视网(优酷、爱奇艺、乐视、腾讯、搜狐)的VIP电影</title>
+<link href="./favicon.ico" rel="shortcut icon" />
+<meta name="author" content="fly">
+<meta name="keywords" content="优酷VIP解析，爱奇艺VIP解析，腾讯VIP解析，乐视VIP解析，芒果VIP解析">
+<meta name="description" content="本站为广大网友提供优酷VIP解析，爱奇艺VIP解析，腾讯VIP解析，乐视VIP解析，芒果VIP解析等破解服务工具，让你省去购买视频VIP的费用,欢迎大家收藏本站,并将它介绍给您的朋友!">
+
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<script language="javascript" src="./images/jquery.js"></script>
+<script src="./images/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="./js/gotop.js"></script>
+<link href="./images/style.css" rel="stylesheet">
+<link href="./images/newcommons.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+<!--
+.STYLE1 {
+	font-size: 14px;
+	font-weight: bold;
+}
+/* html { overflow: hidden; }  */
+body {
+     overflow-x : hidden;  
+     overflow-y : hidden;   
+}
+-->
+</style>
+</head>
+<body>
+
+
+<div class="head-v3">
+<p align="“center&quot;" class="STYLE1">复制VIP视频的地址到↓↓↓↓↓栏中点击立即播放就行了！如果不能播放请在选择接口处更改接口!</p> 
+<div class="centers"><!--接口自行修改-->
+          <select style="border:0px;font-size:18px" onChange="xuanzejiekou(this)">
+            <option value="http://api.baiyug.vip/index.php?url=">通用vip接口</option>
+            <option value="https://api.80tvs.cn/m3u8.php?url=">万能接口1</option>
+            <option value="https://jx.618g.com/?url=">万能接口2</option>
+            <option value="https://api.hdworking.top/?url=">万能接口3</option>
+            <option value="https://vip.52jiexi.top/?url=">万能接口4</option>
+            <option value="http://17kyun.com/api.php?url=">万能接口5</option>
+            <option value="https://z1.m1907.cn/?jx=">万能接口6</option>
+          </select>
+    <div class="searchs">
+        <div class="from">
+          <input name="url" id="url" type="text" class="text" value="">
+
+          <input name="doplayers" type="button" id="doplayers" class="button" onClick="jiexi()" value="立即播放">
+        </div>
+        <div id="clear"></div>
+    </div>
+    <div id="ckplays">
+    	<iframe id="jiekou" name="jiekou" src="./images/ty.html" width="100%" height="550px"></iframe>
+    </div> 
+    <div class="tips">
+            <div id="clear" class="height20"></div>
+			<strong>现已支持以下网站视频播放：</strong>
+
+    </div>
+    
+<script type="text/javascript">
+players();
+$("#doplayers").bind("click", function() {
+    players()
+});
+
+function players() {
+    var a = $('#url').val();
+    if ($('#url').val() == "") {
+        $('#url').focus();
+        return (false)
+    }
+}
+var jiekou = ""
+function jiexi(){
+	var url = document.getElementById("url").value;
+	var dizhi=""
+	
+	if(url.indexOf("://")==-1){
+		url = "http://"+document.getElementById("url").value;
+	}
+	if(jiekou==""){
+		document.getElementById("jiekou").src = "http://api.baiyug.vip/index.php?url=" + url;
+	}else{
+		document.getElementById("jiekou").src = jiekou + url;
+	}
+}
+
+function xuanzejiekou(v){
+	 var url = document.getElementById("url").value;
+	if(url==""){
+		alert('请输入视频网站网址！');
+	}else{
+		jiekou = v.value
+	}
+}
+</script>
+<div id="code"></div>
+<div id="code_img"></div>
+<a id="gotop" href="javascript:void(0)"></a>  
+
+</div>
+
+</script>
+</body></html>

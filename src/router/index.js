@@ -15,6 +15,12 @@ const routes = [
     component: () => import("@/views/auth/Register"),
     meta: { title: "注册" },
   },
+  {
+    path: "/jeixi",
+    name: "jeixi",
+    component: () => import("@/views/site/Jeixi"),
+    meta: { title: "无敌解析" },
+  },
   //电影详细播放页
   {
     path: "/vod/:fid",
