@@ -1,10 +1,9 @@
 <template>
-  <div style="width: 100%; bottomMargin:0">
+  <div style="width: 100%; bottomMargin:0;">
         <!--静态html资源-->
-        <div style="width: 100%;height: 620px;">
-        <iframe src="/static/index.html" scrolling="auto" frameborder="0" style="width: 100%;height: 600px;"
-        overfolw="auto"></iframe>
-        </div>
+        <div style="width: 100%;"> 
+            <iframe src="/static/index.html" allowfullscreen frameborder="0" width="100%" height="700px"></iframe>
+         </div>
 
         <div style="padding-left:80px;">
             <el-row :gutter="20">
@@ -139,12 +138,6 @@ export default {
 </script>
 
 <style>
-.el-row {
-    margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
   .el-col {
     border-radius: 4px;
   }
